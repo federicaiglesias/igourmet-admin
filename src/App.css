@@ -1,0 +1,25 @@
+.content-box {
+  margin-left: 240px;
+  margin-top: 70px;
+}
+.nav-cursor {
+  cursor: pointer;
+}
+.dropdown-min-width {
+  min-width: 150px;
+}
+.bg-color-admin{
+  background-color: #c69b7d;
+}
+body {
+  background-color: #f4e4c6 !important;
+}
+.cursor-trash{
+  cursor: pointer;
+}
+.row-custom-1 {
+  background-color: #ecdfd5; /* Rojo claro */
+}
+.row-custom-2 {
+  background-color: white; /* Verde claro */
+}
