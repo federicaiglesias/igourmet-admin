@@ -1,21 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "../components/dashboard.css";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { logOut } from "../redux/adminSlice";
 
 function Navbar() {
-  const [showDropdown, setShowDropdown] = useState(false);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
   const toggleDropdown = () => {
     setShowDropdown((prev) => !prev);
-  };
-
-  const handleLogout = () => {
-    dispatch(logOut());
-    navigate("/login");
   };
 
   useEffect(() => {
@@ -45,16 +33,6 @@ function Navbar() {
               className="img-fluid profile"
             />
           </div>
-          {showDropdown && (
-            <div className="dropdown-menu position-absolute end-0 mt-2 p-2 shadow bg-light dropdown-min-width">
-              <button
-                className="dropdown-item btn btn-light text-start"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
-            </div>
-          )}
         </div>
         <div className="ml-2 bell-icon"></div>
       </div>
