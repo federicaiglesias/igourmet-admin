@@ -103,7 +103,7 @@ function ProductList() {
                       >
                         <td className="col-width-s ps-3">{product.id}</td>
                         <td>{product.name}</td>
-                        <td>{product.price}</td>
+                        <td>${product.price}</td>
                         <td>{product.stock}</td>
                         <td className="col-width pe-2">
                           {product.description}

@@ -18,7 +18,7 @@ function Sidebar() {
         <div className="d-flex mb-3">
           <Link
             target="_blank"
-            to="http://localhost:5173/"
+            to="http://localhost:5174"
             title="Ir a Igourmet"
           >
             <img
@@ -57,12 +57,12 @@ function Sidebar() {
           </li>
         </ul>
 
-        <div className="mt-auto d-flex justify-content-center mb-3" >
+        <div className="mt-auto d-flex justify-content-center mb-3 ms-2">
           <button
-            className="text-center py-1 px-3 rounded btn w-100  btn-style"
+            className="py-1 px-3 rounded btn w-100 btn-style d-flex align-items-center fs-5 "
             onClick={handleLogout}
           >
-            <i className="bi bi-box-arrow-left fs-5"></i>
+            <i className="bi bi-box-arrow-left fs-5 me-2"></i> Logout
           </button>
         </div>
       </nav>

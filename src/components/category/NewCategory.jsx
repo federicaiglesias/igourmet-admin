@@ -34,7 +34,7 @@ function NewCategory() {
           <h2 className="mb-4 text-center">Nueva categoría</h2>
           <div className="mb-3">
             <label htmlFor="name" className="form-label">
-              Name
+              Nombre
             </label>
             <input
               type="text"

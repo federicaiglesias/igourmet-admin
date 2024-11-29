@@ -36,7 +36,7 @@ function NewAdmin() {
           <div className="row mb-3">
             <div className="col-12 col-md-6">
               <label htmlFor="firstname" className="form-label">
-                Firstname
+                Nombre
               </label>
               <input
                 type="text"
@@ -49,7 +49,7 @@ function NewAdmin() {
             </div>
             <div className="col-12 col-md-6">
               <label htmlFor="lastname" className="form-label">
-                Lastname
+                Apellido
               </label>
               <input
                 type="text"
@@ -64,7 +64,7 @@ function NewAdmin() {
 
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
-              Email
+              Correo electrónico
             </label>
             <input
               type="email"
@@ -78,7 +78,7 @@ function NewAdmin() {
 
           <div className="mb-3">
             <label htmlFor="password" className="form-label">
-              Password
+              Contraseña
             </label>
             <input
               type="password"
