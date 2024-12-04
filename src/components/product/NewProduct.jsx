@@ -2,28 +2,25 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 function NewProduct() {
   const admin = useSelector((state) => state.admin);
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [stock, setStock] = useState("");
-  const [description, setDescription] = useState("");
-  const [subdescription, setSubdescription] = useState("");
-  const [subcategory, setSubcategory] = useState("");
-  const [image, setImage] = useState("");
   const [featured, setFeatured] = useState(false);
-  const [slug, setSlug] = useState("");
   const navigate = useNavigate();
 
-  const handleCreateProduct = async (e) => {
-    const formData = new FormData(e.target);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const handleCreateProduct = async (data) => {
     try {
-      e.preventDefault();
       await axios({
         method: "POST",
         url: `${import.meta.env.VITE_API_URL}/products`,
-        data: formData,
+        data: data,
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${admin.token}`,
@@ -40,7 +37,7 @@ function NewProduct() {
       <div className="container content-box">
         <form
           className="p-3 rounded shadow bg-white"
-          onSubmit={handleCreateProduct}
+          onSubmit={handleSubmit(handleCreateProduct)}
         >
           <h2 className="mb-4 text-center">Nuevo Producto</h2>
 
@@ -55,9 +52,11 @@ function NewProduct() {
                 name="name"
                 className="form-control"
                 placeholder="Ingrese nombre"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                {...register("name", { required: true })}
               />
+              {errors.name?.type === "required" && (
+                <p className="text-danger">Por favor, insertar nombre.</p>
+              )}
             </div>
 
             <div className="col-12 col-md-6 mb-3">
@@ -70,9 +69,13 @@ function NewProduct() {
                 name="subdescription"
                 className="form-control"
                 placeholder="Ingrese subdescripción"
-                value={subdescription}
-                onChange={(e) => setSubdescription(e.target.value)}
+                {...register("subdescription", { required: true })}
               />
+              {errors.subdescription?.type === "required" && (
+                <p className="text-danger">
+                  Por favor, insertar subdescripción.
+                </p>
+              )}
             </div>
           </div>
 
@@ -87,9 +90,11 @@ function NewProduct() {
                 name="price"
                 className="form-control"
                 placeholder="Ingrese precio"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
+                {...register("price", { required: true })}
               />
+              {errors.price?.type === "required" && (
+                <p className="text-danger">Por favor, insertar precio.</p>
+              )}
             </div>
 
             <div className="col-12 col-md-4 mb-3">
@@ -102,9 +107,11 @@ function NewProduct() {
                 name="stock"
                 className="form-control"
                 placeholder="Ingrese stock"
-                value={stock}
-                onChange={(e) => setStock(e.target.value)}
+                {...register("stock", { required: true })}
               />
+              {errors.stock?.type === "required" && (
+                <p className="text-danger">Por favor, insertar stock.</p>
+              )}
             </div>
 
             <div className="col-12 col-md-4 mb-3">
@@ -117,9 +124,11 @@ function NewProduct() {
                 name="subcategory"
                 className="form-control"
                 placeholder="Ingrese subcategoría"
-                value={subcategory}
-                onChange={(e) => setSubcategory(e.target.value)}
+                {...register("subcategory", { required: true })}
               />
+              {errors.subcategory?.type === "required" && (
+                <p className="text-danger">Por favor, insertar subcategoría.</p>
+              )}
             </div>
           </div>
 
@@ -134,9 +143,11 @@ function NewProduct() {
                 name="description"
                 className="form-control"
                 placeholder="Ingrese descripción"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                {...register("description", { required: true })}
               />
+              {errors.description?.type === "required" && (
+                <p className="text-danger">Por favor, insertar descripción.</p>
+              )}
             </div>
           </div>
 
@@ -151,8 +162,11 @@ function NewProduct() {
                 name="image"
                 className="form-control"
                 placeholder="Seleccione imagen"
-                onChange={(e) => setImage(e.target.files[0])}
+                {...register("image", { required: true })}
               />
+              {errors.image?.type === "required" && (
+                <p className="text-danger">Por favor, insertar imagen.</p>
+              )}
             </div>
 
             <div className="col-12 col-md-6 mb-3">
@@ -165,9 +179,11 @@ function NewProduct() {
                 name="slug"
                 className="form-control"
                 placeholder="Ingrese slug"
-                value={slug}
-                onChange={(e) => setSlug(e.target.value)}
+                {...register("slug", { required: true })}
               />
+              {errors.slug?.type === "required" && (
+                <p className="text-danger">Por favor, insertar slug.</p>
+              )}
             </div>
             <div className="col-12 col-md-3 mb-3">
               <label htmlFor="featured" className="form-label me-2">
@@ -180,9 +196,7 @@ function NewProduct() {
                 className="form-check-input"
                 value={featured}
                 checked={featured}
-                onChange={(e) => {
-                  console.log(e), setFeatured(!featured);
-                }}
+                onChange={() => setFeatured(!featured)}
               />
             </div>
           </div>

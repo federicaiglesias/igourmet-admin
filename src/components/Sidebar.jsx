@@ -18,7 +18,7 @@ function Sidebar() {
         <div className="d-flex mb-3">
           <Link
             target="_blank"
-            to="http://localhost:5174"
+            to="https://igourmet-client.vercel.app/"
             title="Ir a Igourmet"
           >
             <img

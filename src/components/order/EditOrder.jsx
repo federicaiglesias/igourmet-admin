@@ -5,20 +5,38 @@ import { useNavigate, useParams } from "react-router-dom";
 
 function EditOrder() {
   const [orderStatus, setOrderStatus] = useState("");
+  const [order, setOrder] = useState({});
   const { id } = useParams();
   const admin = useSelector((state) => state.admin);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchOrder = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/orders/${id}`,
+          {
+            headers: { Authorization: `Bearer ${admin.token}` },
+          }
+        );
+        setOrder(response.data);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    };
+    fetchOrder();
+  }, []);
+
   const handleStatusChange = async (e) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
-      await axios({
+      const response = await axios({
         method: "PATCH",
         url: `${import.meta.env.VITE_API_URL}/orders/${id}`,
         data: { status: orderStatus },
         headers: { Authorization: `Bearer ${admin.token}` },
       });
-      navigate("/ordenes");
+      if (response.data) return navigate("/ordenes");
     } catch (err) {
       console.error("Error al editar orden:", err);
     }
@@ -38,15 +56,25 @@ function EditOrder() {
             Estado de la orden:
           </label>
           <select
+            disabled={
+              order.status === "Completado" || order.status === "Cancelado"
+            }
             id="orderStatus"
             className="form-select"
-            value={orderStatus}
             onChange={handleSelectChange}
           >
-            <option value="Pendiente">Pendiente</option>
-            <option value="En proceso">En Proceso</option>
-            <option value="Completado">Completado</option>
-            <option value="Cancelado">Cancelado</option>
+            <option selected={order.status === "Pendiente"} value="Pendiente">
+              Pendiente
+            </option>
+            <option selected={order.status === "En proceso"} value="En proceso">
+              En Proceso
+            </option>
+            <option selected={order.status === "Completado"} value="Completado">
+              Completado
+            </option>
+            <option selected={order.status === "Cancelado"} value="Cancelado">
+              Cancelado
+            </option>
           </select>
         </div>
         <div className="d-flex justify-content-center">

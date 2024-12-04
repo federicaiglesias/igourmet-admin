@@ -7,22 +7,27 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
 import "./auth.css";
+import { useForm } from "react-hook-form";
 
 function Login() {
-  const [email, setEmail] = useState("admin@gmail.com");
-  const [password, setPassword] = useState("1234");
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: { email: "admin@gmail.com", password: "1234" },
+  });
+
+  const handleLogin = async (data) => {
     try {
       const response = await axios({
         method: "POST",
         url: `${import.meta.env.VITE_API_URL}/token`,
-        data: { email, password },
+        data: data,
       });
 
       if (response.data.token) {
@@ -49,7 +54,7 @@ function Login() {
               <h2 className="text-start title-login mb-4">
                 Iniciar sesión como administrador
               </h2>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit(handleLogin)}>
                 <div className="mb-3">
                   <label hidden htmlFor="email">
                     Correo electónico:
@@ -59,9 +64,13 @@ function Login() {
                     id="email"
                     placeholder="Ingresá tu correo electónico"
                     className="form-control w-100"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    {...register("email", { required: true })}
                   />
+                  {errors.email?.type === "required" && (
+                    <p className="text-danger">
+                      Por favor, insertar correo electrónico.
+                    </p>
+                  )}
                 </div>
 
                 <div className="mb-3">
@@ -74,9 +83,13 @@ function Login() {
                     name="password"
                     placeholder="Ingresá tu contraseña"
                     className="form-control w-100"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    {...register("password", { required: true })}
                   />
+                  {errors.password?.type === "required" && (
+                    <p className="text-danger">
+                      Por favor, insertar contraseña.
+                    </p>
+                  )}
                 </div>
 
                 <button className="w-100 mb-3 rounded">Ingresar</button>

@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 function NewAdmin() {
   const admin = useSelector((state) => state.admin);
@@ -11,13 +12,20 @@ function NewAdmin() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleCreateAdmin = async (e) => {
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors },
+  } = useForm({});
+
+  const handleCreateAdmin = async (data) => {
     try {
-      e.preventDefault();
       await axios({
         method: "POST",
         url: `${import.meta.env.VITE_API_URL}/admins`,
-        data: { firstname, lastname, email, password },
+        data: data,
         headers: { Authorization: `Bearer ${admin.token}` },
       });
       navigate("/administradores");
@@ -30,7 +38,7 @@ function NewAdmin() {
       <div className="container content-box">
         <form
           className="bg-white p-4 rounded shadow"
-          onSubmit={handleCreateAdmin}
+          onSubmit={handleSubmit(handleCreateAdmin)}
         >
           <h2 className="mb-4 text-center">Nuevo Administrador</h2>
           <div className="row mb-3">
@@ -43,9 +51,11 @@ function NewAdmin() {
                 id="firstname"
                 className="form-control"
                 placeholder="Ingrese su nombre"
-                value={firstname}
-                onChange={(e) => setFirstname(e.target.value)}
+                {...register("firstname", { required: true })}
               />
+              {errors.firstname?.type === "required" && (
+                <p className="text-danger">Por favor, insertar nombre.</p>
+              )}
             </div>
             <div className="col-12 col-md-6">
               <label htmlFor="lastname" className="form-label">
@@ -56,9 +66,11 @@ function NewAdmin() {
                 id="lastname"
                 className="form-control"
                 placeholder="Ingrese su apellido"
-                value={lastname}
-                onChange={(e) => setLastname(e.target.value)}
+                {...register("lastname", { required: true })}
               />
+              {errors.lastname?.type === "required" && (
+                <p className="text-danger">Por favor, insertar apellido.</p>
+              )}
             </div>
           </div>
 
@@ -71,9 +83,19 @@ function NewAdmin() {
               id="email"
               className="form-control"
               placeholder="Ingrese su correo electrónico"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+              {...register("email", {
+                required: true,
+                pattern: /([\w\.]+)@([\w\.]+)\.(\w+)/gi,
+              })}
+            />{" "}
+            {errors.email?.type === "required" && (
+              <p className="text-danger">
+                Por favor, insertar correo electrónico.
+              </p>
+            )}
+            {errors.email?.type === "pattern" && (
+              <p className="text-danger">Formato incorrecto.</p>
+            )}
           </div>
 
           <div className="mb-3">
@@ -85,9 +107,11 @@ function NewAdmin() {
               id="password"
               className="form-control"
               placeholder="Ingrese su contraseña"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...register("password", { required: true })}
             />
+            {errors.password?.type === "required" && (
+              <p className="text-danger">Por favor, insertar contraseña.</p>
+            )}
           </div>
           <div className="d-flex justify-content-center">
             <button type="submit" className="rounded p-2">

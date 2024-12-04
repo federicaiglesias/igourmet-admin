@@ -2,12 +2,19 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 function EditCategory() {
   const { id } = useParams();
   const admin = useSelector((state) => state.admin);
-  const [categoryInfo, setCategoryInfo] = useState({});
   const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({});
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -15,7 +22,7 @@ function EditCategory() {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/categories/${id}`
         );
-        setCategoryInfo(response.data);
+        setValue("name", response.data.name);
       } catch (error) {
         console.error("Error fetching product data:", error);
       }
@@ -23,13 +30,12 @@ function EditCategory() {
     fetchProduct();
   }, []);
 
-  const handleUpdateCategory = async (e) => {
+  const handleUpdateCategory = async (data) => {
     try {
-      e.preventDefault();
       await axios({
         method: "PATCH",
         url: `${import.meta.env.VITE_API_URL}/categories/${id}`,
-        data: categoryInfo,
+        data: data,
         headers: { Authorization: `Bearer ${admin.token}` },
       });
       navigate("/categorias");
@@ -42,7 +48,7 @@ function EditCategory() {
       <div className="container content-box">
         <form
           className="bg-white p-4 rounded shadow"
-          onSubmit={handleUpdateCategory}
+          onSubmit={handleSubmit(handleUpdateCategory)}
         >
           <h2 className="mb-4 text-center">Editar Categoría</h2>
 
@@ -56,11 +62,11 @@ function EditCategory() {
                 id="name"
                 className="form-control"
                 placeholder="Ingrese nombre"
-                value={categoryInfo.name}
-                onChange={(e) =>
-                  setCategoryInfo({ ...categoryInfo, name: e.target.value })
-                }
+                {...register("name", { required: true })}
               />
+              {errors.name?.type === "required" && (
+                <p className="text-danger">Por favor, insertar nombre.</p>
+              )}
             </div>
           </div>
           <div className="d-flex justify-content-center">

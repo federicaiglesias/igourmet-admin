@@ -2,12 +2,19 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 function EditAdmin() {
   const { id } = useParams();
   const admin = useSelector((state) => state.admin);
-  const [adminInfo, setAdminInfo] = useState({});
   const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
 
   useEffect(() => {
     const fetchAdmin = async () => {
@@ -17,7 +24,10 @@ function EditAdmin() {
           url: `${import.meta.env.VITE_API_URL}/admins/${id}`,
           headers: { Authorization: `Bearer ${admin.token}` },
         });
-        setAdminInfo(response.data);
+        console.log(response.data);
+        setValue( "firstname", response.data.firstname );
+        setValue( "lastname", response.data.lastname );
+        setValue( "email", response.data.email );
       } catch (error) {
         console.error("Error fetching admin data:", error);
       }
@@ -25,13 +35,12 @@ function EditAdmin() {
     fetchAdmin();
   }, []);
 
-  const handleUpdateAdmin = async (e) => {
+  const handleUpdateAdmin = async (data) => {
     try {
-      e.preventDefault();
       await axios({
         method: "PATCH",
         url: `${import.meta.env.VITE_API_URL}/admins/${id}`,
-        data: adminInfo,
+        data: data,
         headers: { Authorization: `Bearer ${admin.token}` },
       });
       navigate("/administradores");
@@ -44,7 +53,7 @@ function EditAdmin() {
       <div className="container content-box">
         <form
           className="bg-white p-4 rounded shadow"
-          onSubmit={handleUpdateAdmin}
+          onSubmit={handleSubmit(handleUpdateAdmin)}
         >
           <h2 className="mb-4 text-center">Editar Administrador</h2>
 
@@ -58,11 +67,11 @@ function EditAdmin() {
                 id="firstname"
                 className="form-control"
                 placeholder="Ingrese su nombre"
-                value={adminInfo.firstname}
-                onChange={(e) =>
-                  setAdminInfo({ ...adminInfo, firstname: e.target.value })
-                }
+                {...register("firstname", { required: true })}
               />
+              {errors.firstname?.type === "required" && (
+                <p className="text-danger">Por favor, insertar nombre.</p>
+              )}
             </div>
 
             <div className="col-md-6">
@@ -74,11 +83,11 @@ function EditAdmin() {
                 id="lastname"
                 className="form-control"
                 placeholder="Ingrese su apellido"
-                value={adminInfo.lastname}
-                onChange={(e) =>
-                  setAdminInfo({ ...adminInfo, lastname: e.target.value })
-                }
+                {...register("lastname", { required: true })}
               />
+              {errors.lastname?.type === "required" && (
+                <p className="text-danger">Por favor, insertar apellido.</p>
+              )}
             </div>
           </div>
 
@@ -91,11 +100,19 @@ function EditAdmin() {
               id="email"
               className="form-control"
               placeholder="Ingrese su correo electrónico"
-              value={adminInfo.email}
-              onChange={(e) =>
-                setAdminInfo({ ...adminInfo, email: e.target.value })
-              }
+              {...register("email", {
+                required: true,
+                pattern: /([\w\.]+)@([\w\.]+)\.(\w+)/gi,
+              })}
             />
+            {errors.email?.type === "required" && (
+              <p className="text-danger">
+                Por favor, insertar correo electrónico.
+              </p>
+            )}
+            {errors.email?.type === "pattern" && (
+              <p className="text-danger">Formato incorrecto.</p>
+            )}
           </div>
 
           <div className="mb-3">
@@ -107,11 +124,13 @@ function EditAdmin() {
               id="password"
               className="form-control"
               placeholder="Ingrese su contraseña"
-              value={adminInfo.password}
-              onChange={(e) =>
-                setAdminInfo({ ...adminInfo, password: e.target.value })
-              }
+              {...register("password", {
+                required: true,
+              })}
             />
+            {errors.password?.type === "required" && (
+              <p className="text-danger">Por favor, insertar contraseña.</p>
+            )}
           </div>
           <div className="d-flex justify-content-center">
             <button type="submit" className="rounded p-2">

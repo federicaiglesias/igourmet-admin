@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 function EditProduct() {
   const { slug } = useParams();
@@ -9,13 +10,27 @@ function EditProduct() {
   const navigate = useNavigate();
   const admin = useSelector((state) => state.admin);
 
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({});
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/products/${slug}`
         );
-        setProductInfo(response.data);
+        setValue("name", response.data.name);
+        setValue("subdescription", response.data.subdescription);
+        setValue("price", response.data.price);
+        setValue("stock", response.data.stock);
+        setValue("subcategory", response.data.subcategory);
+        setValue("description", response.data.description);
+        setValue("image", response.data.image);
+        setValue("slug", response.data.slug);
       } catch (error) {
         console.error("Error fetching product data:", error);
       }
@@ -23,13 +38,12 @@ function EditProduct() {
     fetchProduct();
   }, []);
 
-  const handleUpdateProduct = async (e) => {
+  const handleUpdateProduct = async (data) => {
     try {
-      e.preventDefault();
       await axios({
         method: "PATCH",
         url: `${import.meta.env.VITE_API_URL}/products/${slug}`,
-        data: productInfo,
+        data: data,
         headers: { Authorization: `Bearer ${admin.token}` },
       });
       navigate("/productos");
@@ -42,7 +56,7 @@ function EditProduct() {
       <div className="container content-box">
         <form
           className="bg-white p-3 rounded shadow"
-          onSubmit={handleUpdateProduct}
+          onSubmit={handleSubmit(handleUpdateProduct)}
         >
           <h2 className="mb-4 text-center">Editar Producto</h2>
           <div className="row">
@@ -56,11 +70,11 @@ function EditProduct() {
                 id="name"
                 className="form-control"
                 placeholder="Ingrese nombre"
-                value={productInfo.name}
-                onChange={(e) =>
-                  setProductInfo({ ...productInfo, name: e.target.value })
-                }
+                {...register("name", { required: true })}
               />
+              {errors.name?.type === "required" && (
+                <p className="text-danger">Por favor, insertar nombre.</p>
+              )}
             </div>
 
             <div className="col-12 col-md-6 mb-3">
@@ -72,14 +86,13 @@ function EditProduct() {
                 id="subdescription"
                 className="form-control"
                 placeholder="Ingrese subdescripción"
-                value={productInfo.subdescription}
-                onChange={(e) =>
-                  setProductInfo({
-                    ...productInfo,
-                    subdescription: e.target.value,
-                  })
-                }
+                {...register("subdescription", { required: true })}
               />
+              {errors.subdescription?.type === "required" && (
+                <p className="text-danger">
+                  Por favor, insertar subdescripción.
+                </p>
+              )}
             </div>
           </div>
 
@@ -93,11 +106,11 @@ function EditProduct() {
                 id="price"
                 className="form-control"
                 placeholder="Ingrese precio"
-                value={productInfo.price}
-                onChange={(e) =>
-                  setProductInfo({ ...productInfo, price: e.target.value })
-                }
+                {...register("price", { required: true })}
               />
+              {errors.price?.type === "required" && (
+                <p className="text-danger">Por favor, insertar precio.</p>
+              )}
             </div>
 
             <div className="col-12 col-md-4 mb-3">
@@ -109,11 +122,11 @@ function EditProduct() {
                 id="stock"
                 className="form-control"
                 placeholder="Ingrese stock"
-                value={productInfo.stock}
-                onChange={(e) =>
-                  setProductInfo({ ...productInfo, stock: e.target.value })
-                }
+                {...register("stock", { required: true })}
               />
+              {errors.stock?.type === "required" && (
+                <p className="text-danger">Por favor, insertar stock.</p>
+              )}
             </div>
 
             <div className="col-12 col-md-4 mb-3">
@@ -125,14 +138,11 @@ function EditProduct() {
                 id="subcategory"
                 className="form-control"
                 placeholder="Ingrese subcategoría"
-                value={productInfo.subcategory}
-                onChange={(e) =>
-                  setProductInfo({
-                    ...productInfo,
-                    subcategory: e.target.value,
-                  })
-                }
+                {...register("subcategory", { required: true })}
               />
+              {errors.subcategory?.type === "required" && (
+                <p className="text-danger">Por favor, insertar subcategoría.</p>
+              )}
             </div>
           </div>
 
@@ -146,14 +156,11 @@ function EditProduct() {
                 id="description"
                 className="form-control"
                 placeholder="Ingrese descripción"
-                value={productInfo.description}
-                onChange={(e) =>
-                  setProductInfo({
-                    ...productInfo,
-                    description: e.target.value,
-                  })
-                }
+                {...register("description", { required: true })}
               />
+              {errors.description?.type === "required" && (
+                <p className="text-danger">Por favor, insertar descripción.</p>
+              )}
             </div>
           </div>
 
@@ -168,11 +175,11 @@ function EditProduct() {
                 id="image"
                 className="form-control"
                 placeholder="Ingrese imagen"
-                value={productInfo.image}
-                onChange={(e) =>
-                  setProductInfo({ ...productInfo, image: e.target.value })
-                }
+                {...register("image", { required: true })}
               />
+              {errors.image?.type === "required" && (
+                <p className="text-danger">Por favor, insertar imagen.</p>
+              )}
             </div>
 
             <div className="col-12 col-md-6 mb-3">
@@ -184,11 +191,11 @@ function EditProduct() {
                 id="slug"
                 className="form-control"
                 placeholder="Ingrese slug"
-                value={productInfo.slug}
-                onChange={(e) =>
-                  setProductInfo({ ...productInfo, slug: e.target.value })
-                }
+                {...register("slug", { required: true })}
               />
+              {errors.slug?.type === "required" && (
+                <p className="text-danger">Por favor, insertar slug.</p>
+              )}
             </div>
             <div className="col-12 col-md-3 mb-3">
               <label htmlFor="featured" className="form-label me-3">
