@@ -55,7 +55,7 @@ function NewProduct() {
                 {...register("name", { required: true })}
               />
               {errors.name?.type === "required" && (
-                <p className="text-danger">Por favor, insertar nombre.</p>
+                <p className="text-danger font-size-error">Por favor, insertar nombre.</p>
               )}
             </div>
 
@@ -72,7 +72,7 @@ function NewProduct() {
                 {...register("subdescription", { required: true })}
               />
               {errors.subdescription?.type === "required" && (
-                <p className="text-danger">
+                <p className="text-danger font-size-error">
                   Por favor, insertar subdescripción.
                 </p>
               )}
@@ -93,7 +93,7 @@ function NewProduct() {
                 {...register("price", { required: true })}
               />
               {errors.price?.type === "required" && (
-                <p className="text-danger">Por favor, insertar precio.</p>
+                <p className="text-danger font-size-error">Por favor, insertar precio.</p>
               )}
             </div>
 
@@ -110,7 +110,7 @@ function NewProduct() {
                 {...register("stock", { required: true })}
               />
               {errors.stock?.type === "required" && (
-                <p className="text-danger">Por favor, insertar stock.</p>
+                <p className="text-danger font-size-error">Por favor, insertar stock.</p>
               )}
             </div>
 
@@ -127,7 +127,7 @@ function NewProduct() {
                 {...register("subcategory", { required: true })}
               />
               {errors.subcategory?.type === "required" && (
-                <p className="text-danger">Por favor, insertar subcategoría.</p>
+                <p className="text-danger font-size-error">Por favor, insertar subcategoría.</p>
               )}
             </div>
           </div>
@@ -146,7 +146,7 @@ function NewProduct() {
                 {...register("description", { required: true })}
               />
               {errors.description?.type === "required" && (
-                <p className="text-danger">Por favor, insertar descripción.</p>
+                <p className="text-danger font-size-error">Por favor, insertar descripción.</p>
               )}
             </div>
           </div>
@@ -165,7 +165,7 @@ function NewProduct() {
                 {...register("image", { required: true })}
               />
               {errors.image?.type === "required" && (
-                <p className="text-danger">Por favor, insertar imagen.</p>
+                <p className="text-danger font-size-error">Por favor, insertar imagen.</p>
               )}
             </div>
 
@@ -182,7 +182,7 @@ function NewProduct() {
                 {...register("slug", { required: true })}
               />
               {errors.slug?.type === "required" && (
-                <p className="text-danger">Por favor, insertar slug.</p>
+                <p className="text-danger font-size-error">Por favor, insertar slug.</p>
               )}
             </div>
             <div className="col-12 col-md-3 mb-3">

@@ -67,7 +67,7 @@ function Login() {
                     {...register("email", { required: true })}
                   />
                   {errors.email?.type === "required" && (
-                    <p className="text-danger">
+                    <p className="text-danger font-size-error">
                       Por favor, insertar correo electrónico.
                     </p>
                   )}
@@ -86,7 +86,7 @@ function Login() {
                     {...register("password", { required: true })}
                   />
                   {errors.password?.type === "required" && (
-                    <p className="text-danger">
+                    <p className="text-danger font-size-error">
                       Por favor, insertar contraseña.
                     </p>
                   )}

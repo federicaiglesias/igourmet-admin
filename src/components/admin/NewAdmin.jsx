@@ -54,7 +54,7 @@ function NewAdmin() {
                 {...register("firstname", { required: true })}
               />
               {errors.firstname?.type === "required" && (
-                <p className="text-danger">Por favor, insertar nombre.</p>
+                <p className="text-danger font-size-error">Por favor, insertar nombre.</p>
               )}
             </div>
             <div className="col-12 col-md-6">
@@ -69,7 +69,7 @@ function NewAdmin() {
                 {...register("lastname", { required: true })}
               />
               {errors.lastname?.type === "required" && (
-                <p className="text-danger">Por favor, insertar apellido.</p>
+                <p className="text-danger font-size-error">Por favor, insertar apellido.</p>
               )}
             </div>
           </div>
@@ -89,12 +89,12 @@ function NewAdmin() {
               })}
             />{" "}
             {errors.email?.type === "required" && (
-              <p className="text-danger">
+              <p className="text-danger font-size-error">
                 Por favor, insertar correo electrónico.
               </p>
             )}
             {errors.email?.type === "pattern" && (
-              <p className="text-danger">Formato incorrecto.</p>
+              <p className="text-danger font-size-error">Formato incorrecto.</p>
             )}
           </div>
 
@@ -110,7 +110,7 @@ function NewAdmin() {
               {...register("password", { required: true })}
             />
             {errors.password?.type === "required" && (
-              <p className="text-danger">Por favor, insertar contraseña.</p>
+              <p className="text-danger font-size-error">Por favor, insertar contraseña.</p>
             )}
           </div>
           <div className="d-flex justify-content-center">

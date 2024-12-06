@@ -70,7 +70,7 @@ function EditAdmin() {
                 {...register("firstname", { required: true })}
               />
               {errors.firstname?.type === "required" && (
-                <p className="text-danger">Por favor, insertar nombre.</p>
+                <p className="text-danger font-size-error">Por favor, insertar nombre.</p>
               )}
             </div>
 
@@ -86,7 +86,7 @@ function EditAdmin() {
                 {...register("lastname", { required: true })}
               />
               {errors.lastname?.type === "required" && (
-                <p className="text-danger">Por favor, insertar apellido.</p>
+                <p className="text-danger font-size-error">Por favor, insertar apellido.</p>
               )}
             </div>
           </div>
@@ -106,12 +106,12 @@ function EditAdmin() {
               })}
             />
             {errors.email?.type === "required" && (
-              <p className="text-danger">
+              <p className="text-danger font-size-error">
                 Por favor, insertar correo electrónico.
               </p>
             )}
             {errors.email?.type === "pattern" && (
-              <p className="text-danger">Formato incorrecto.</p>
+              <p className="text-danger font-size-error">Formato incorrecto.</p>
             )}
           </div>
 
@@ -129,7 +129,7 @@ function EditAdmin() {
               })}
             />
             {errors.password?.type === "required" && (
-              <p className="text-danger">Por favor, insertar contraseña.</p>
+              <p className="text-danger font-size-error">Por favor, insertar contraseña.</p>
             )}
           </div>
           <div className="d-flex justify-content-center">

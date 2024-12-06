@@ -23,3 +23,6 @@ body {
 .row-custom-2 {
   background-color: white; /* Verde claro */
 }
+.font-size-error{
+  font-size: 0.8rem;
+}

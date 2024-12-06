@@ -87,3 +87,6 @@ button:hover {
 .auth-bg-color {
   background-color: #fcf7f7;
 }
+.font-size-error{
+  font-size: 0.8rem;
+}

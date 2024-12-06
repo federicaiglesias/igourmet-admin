@@ -19,3 +19,6 @@
 .col-width-m{
   min-width: 300px;
 }
+.font-size-error{
+  font-size: 0.8rem;
+}

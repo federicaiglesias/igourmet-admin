@@ -65,7 +65,7 @@ function EditCategory() {
                 {...register("name", { required: true })}
               />
               {errors.name?.type === "required" && (
-                <p className="text-danger">Por favor, insertar nombre.</p>
+                <p className="text-danger font-size-error">Por favor, insertar nombre.</p>
               )}
             </div>
           </div>
